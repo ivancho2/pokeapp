@@ -19,6 +19,7 @@ Definiciones tecnicas
 - usar minificado y ofuscado
 - usar context-api fusionado con cache en client side
 - usar login para guardar sesión en browser con ttl de 10 min y refrescar con navegación (validar donde gestionar ese auth)
+- agregar skeletom para loading
 
 
 - 
