@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { POKEMON_API_URL, POKEMON_LIST_PAGINATION } from "../constants";
 
 interface Pokemon {
   name: string;
@@ -23,18 +24,21 @@ interface AbilityEffect {
   effect: string;
 }
 
+// TODO: define and revie all constants an hoook for fetch data and paginate
+// TODO: define ttl for cache
+
 export const usePokemonList = (offset: number, searchTerm: string) => {
   return useQuery<Pokemon[]>({
     queryKey: ["pokemons", offset, searchTerm],
     queryFn: async () => {
       const { data } = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=200`
+        `${POKEMON_API_URL}?offset=${offset}&limit=${POKEMON_LIST_PAGINATION.LIMIT}`
       );
       return searchTerm
         ? data.results.filter((p: Pokemon) =>
             p.name.includes(searchTerm.toLowerCase())
           )
-        : data.results.slice(0, 10);
+        : data.results.slice(0, POKEMON_LIST_PAGINATION.LIMIT);
     },
   });
 };
@@ -43,9 +47,7 @@ export const usePokemonDetails = (name: string) => {
   return useQuery<PokemonDetails>({
     queryKey: ["pokemon", name],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon/${name}`
-      );
+      const { data } = await axios.get(`${POKEMON_API_URL}/${name}`);
       return data;
     },
     enabled: !!name,

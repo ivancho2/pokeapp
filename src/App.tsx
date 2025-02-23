@@ -1,29 +1,50 @@
-import { useState } from "react";
+import { JSX } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 
-import { PokemonTable } from "./components/PokemonTable";
+import { HomePage } from "./pages/Home";
+import { LoginPage } from "./pages/Login";
 
-export default function App() {
-  const [offset, setOffset] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
+import { checkAuth } from "./utils/auth";
 
+import "./styles/common.scss";
+
+export const App = () => {
   return (
-    <div className="min-h-screen bg-gray-100 p-4 md:p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6 text-gray-800">Pokédex</h1>
-
-        <input
-          type="text"
-          placeholder="Buscar Pokémon..."
-          className="mb-4 p-2 w-full rounded border"
-          onChange={(e) => setSearchTerm(e.target.value)}
+    <div className="app-container">
+      <Routes>
+        <Route path="/" element={<Navigate to="/home" />} />
+        <Route
+          path="/login"
+          element={
+            <LoginGuard>
+              <LoginPage />
+            </LoginGuard>
+          }
         />
-
-        <PokemonTable
-          offset={offset}
-          searchTerm={searchTerm}
-          onPaginate={setOffset}
+        <Route
+          path="/home"
+          element={
+            <AuthGuard>
+              <HomePage />
+            </AuthGuard>
+          }
         />
-      </div>
+        <Route
+          path="*"
+          element={
+            checkAuth() ? <Navigate to="/home" /> : <Navigate to="/login" />
+          }
+        />
+      </Routes>
     </div>
   );
-}
+};
+
+// Componentes guard para protección de rutas
+const AuthGuard = ({ children }: { children: JSX.Element }) => {
+  return checkAuth() ? children : <Navigate to="/login" replace />;
+};
+
+const LoginGuard = ({ children }: { children: JSX.Element }) => {
+  return !checkAuth() ? children : <Navigate to="/home" replace />;
+};

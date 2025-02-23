@@ -1,7 +1,11 @@
-import { useState } from "react";
+import React, { Suspense, useState } from "react";
 
-import { PokemonDetails } from "../PokemonDetails";
 import { usePokemonList } from "./../../hooks/usePokemon";
+import { CustomButton } from "../CustomButtom";
+import { POKEMON_SPRITE_URL } from "../../constants";
+
+const PokemonDetails = React.lazy(() => import("../PokemonDetails"));
+import "./styles.scss";
 
 export const PokemonTable = ({
   offset,
@@ -25,19 +29,17 @@ export const PokemonTable = ({
 
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div className="pokemon-table">
         {pokemons?.map((pokemon) => (
           <div
             key={pokemon.name}
-            className="pokemon-card p-4 cursor-pointer"
+            className="pokemon-card"
             onDoubleClick={() => setSelectedPokemon(pokemon.name)}
           >
             <img
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${
-                pokemon.url.split('/')[6]
-              }.png`}
+              src={`${POKEMON_SPRITE_URL}/${pokemon.url.split("/")[6]}.png`}
               alt={pokemon.name}
-              className="mx-auto h-32 w-32 object-contain hover:scale-110 transition-transform"
+              className="mx-auto h-32 w-32 object-contain"
             />
             <h2 className="text-center font-bold mt-3 capitalize text-lg text-pokemon-red">
               {pokemon.name}
@@ -46,31 +48,31 @@ export const PokemonTable = ({
         ))}
       </div>
 
-      {/* Botones de paginación mejorados */}
       {!searchTerm && (
         <div className="flex justify-center gap-4 mt-8">
-          <button
-            onClick={() => onPaginate(Math.max(0, offset - 10))}
+          <CustomButton
+            handleOnClick={() => onPaginate(Math.max(0, offset - 10))}
+            type="secondary"
             disabled={offset === 0}
-            className="px-6 py-2 bg-pokemon-blue text-white rounded-full hover:bg-blue-700 disabled:opacity-50"
           >
             ← Anterior
-          </button>
-          <button
-            onClick={() => onPaginate(offset + 10)}
-            className="px-6 py-2 bg-pokemon-red text-white rounded-full hover:bg-red-700"
+          </CustomButton>
+          <CustomButton
+            handleOnClick={() => onPaginate(offset + 10)}
+            type="secondary"
           >
             Siguiente →
-          </button>
+          </CustomButton>
         </div>
       )}
-
-      {selectedPokemon && (
-        <PokemonDetails
-          name={selectedPokemon}
-          onClose={() => setSelectedPokemon(null)}
-        />
-      )}
+      <Suspense>
+        {selectedPokemon && (
+          <PokemonDetails
+            name={selectedPokemon}
+            onClose={() => setSelectedPokemon(null)}
+          />
+        )}
+      </Suspense>
     </div>
   );
 };

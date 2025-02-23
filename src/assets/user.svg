@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="64"
+  height="64"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="11" fill="url(#paint0_linear)" stroke="#2c2c2c" stroke-width="0.5" />
+  <path
+    d="M12 13C14.2091 13 16 11.2091 16 9C16 6.79086 14.2091 5 12 5C9.79086 5 8 6.79086 8 9C8 11.2091 9.79086 13 12 13Z"
+    fill="white" />
+  <path d="M5 19C5 16.7909 6.79086 15 9 15H15C17.2091 15 19 16.7909 19 19V20H5V19Z"
+    fill="white" />
+
+  <circle cx="12" cy="12" r="4" fill="none" stroke="#2c2c2c" stroke-width="0.8" />
+  <line x1="12" y1="8" x2="12" y2="16" stroke="#2c2c2c" stroke-width="0.8" />
+
+  <defs>
+    <linearGradient id="paint0_linear" x1="12" y1="0" x2="12" y2="24" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF3D3D" />
+      <stop offset="1" stop-color="#CC2A2A" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="rgba(0,0,0,0.3)" />
+    </filter>
+  </defs>
+</svg>

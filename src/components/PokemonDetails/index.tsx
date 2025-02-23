@@ -1,7 +1,12 @@
 import { useState } from "react";
 
 import { AbilityEffect } from "../AbilityEffect";
+import { CustomButton } from "../CustomButtom";
+import { ModalInfo } from "../ModalInfo";
+
 import { usePokemonDetails } from "../../hooks/usePokemon";
+import { capitalize } from "../../utils/string";
+import { POKEMON_TYPES_COLORS } from "../../constants";
 
 export const PokemonDetails = ({
   name,
@@ -14,73 +19,78 @@ export const PokemonDetails = ({
   const [selectedAbility, setSelectedAbility] = useState<string | null>(null);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4 border-4 border-pokemon-yellow">
-        {pokemon && (
-          <>
-            <h2 className="text-3xl font-bold mb-4 text-pokemon-blue text-center">
-              #{pokemon.id} {pokemon.name}
-            </h2>
-            <img
-              src={pokemon.sprites.other["official-artwork"].front_default}
-              className="mx-auto mb-4 h-48 w-48"
-              alt={pokemon.name}
-            />
+    <ModalInfo title="Detalles del Pokémon" onClose={onClose}>
+      {pokemon && (
+        <>
+          <h2 className="text-3xl font-bold mb-4 text-center">
+            #{pokemon.id} {pokemon.name}
+          </h2>
+          <img
+            src={pokemon.sprites.other["official-artwork"].front_default}
+            className="mx-auto mb-4 h-48 w-48"
+            alt={pokemon.name}
+          />
 
-            <div className="grid grid-cols-2 gap-4 mb-4">
-              <div className="bg-gray-100 p-3 rounded-lg">
-                <p className="font-semibold">Peso</p>
-                <p className="text-lg">{(pokemon.weight / 10).toFixed(1)} kg</p>
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            {["weight", "height"].map((key) => (
+              <div key={key} className="bg-gray-100 p-3 rounded-lg text-center">
+                <p className="font-semibold text-blue-400 capitalize">{key}</p>
+                <p className="text-lg">
+                  {key === "weight"
+                    ? (pokemon[key] / 10).toFixed(1)
+                    : key === "height"
+                    ? pokemon.height
+                    : null}
+                  {key === "weight" ? " kg" : " m"}
+                </p>
               </div>
-              <div className="bg-gray-100 p-3 rounded-lg">
-                <p className="font-semibold">Altura</p>
-                <p className="text-lg">{(pokemon.height / 10).toFixed(1)} m</p>
-              </div>
-            </div>
+            ))}
+          </div>
 
-            <div className="mb-4">
-              <p className="font-semibold">Tipos:</p>
-              <div className="flex gap-2 mt-2">
-                {pokemon.types.map(({ type }) => (
+          <div className="mb-4">
+            <p className="font-semibold text-blue-400">Tipos:</p>
+            <div className="flex gap-2 mt-2">
+              {pokemon.types.map(({ type }) => {
+                const colors =
+                  POKEMON_TYPES_COLORS[
+                    type.name as keyof typeof POKEMON_TYPES_COLORS
+                  ];
+                return (
                   <span
                     key={type.name}
-                    className={`pokemon-type-badge bg-type-${type.name} text-white`}
+                    className={`inline-flex items-center rounded-md ${colors.bg} px-2 py-1 text-xs font-medium ${colors.text} ring-1 ring-inset ${colors.ring}`}
                   >
                     {type.name}
                   </span>
-                ))}
-              </div>
+                );
+              })}
             </div>
+          </div>
 
-            <div className="mt-4">
-              <h3 className="font-bold mb-2">Habilidades:</h3>
-              {pokemon.abilities.map((ability) => (
-                <button
-                  key={ability.ability.name}
-                  onClick={() => setSelectedAbility(ability.ability.url)}
-                  className="mr-2 mb-2 px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                >
-                  {ability.ability.name}
-                </button>
-              ))}
-            </div>
-          </>
-        )}
+          <div className="mt-4">
+            <h3 className="font-bold mb-2">Habilidades:</h3>
+            {pokemon.abilities.map((ability) => (
+              <CustomButton
+                key={ability.ability.name}
+                className="mr-2 mb-2 px-3 py-1"
+                type="secondary"
+                handleOnClick={() => setSelectedAbility(ability.ability.url)}
+              >
+                {capitalize(ability.ability.name)}
+              </CustomButton>
+            ))}
+          </div>
+        </>
+      )}
 
-        <button
-          onClick={onClose}
-          className="mt-4 w-full bg-red-500 text-white py-2 rounded"
-        >
-          Cerrar
-        </button>
-
-        {selectedAbility && (
-          <AbilityEffect
-            url={selectedAbility}
-            onClose={() => setSelectedAbility(null)}
-          />
-        )}
-      </div>
-    </div>
+      {selectedAbility && (
+        <AbilityEffect
+          url={selectedAbility}
+          onClose={() => setSelectedAbility(null)}
+        />
+      )}
+    </ModalInfo>
   );
 };
+
+export default PokemonDetails;
