@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import { PokemonTable } from "./../components/PokemonTable";
-
 import { UserDropdown } from "../components/UserDropdown";
+import { InputSearch } from "../components/InputSearch";
+import { PokemonTable } from "./../components/PokemonTable";
 
 export const HomePage = () => {
   const [offset, setOffset] = useState(0);
@@ -15,15 +15,7 @@ export const HomePage = () => {
           <h1 className="text-3xl font-bold text-gray-800">Pokédex</h1>
           <UserDropdown />
         </div>
-
-        <input
-          type="text"
-          placeholder="Buscar Pokémon..."
-          className="mb-4 p-2 w-full rounded border"
-          tabIndex={0}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-
+        <InputSearch setSearchTerm={setSearchTerm} />
         <PokemonTable
           offset={offset}
           searchTerm={searchTerm}

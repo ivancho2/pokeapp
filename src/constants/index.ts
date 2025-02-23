@@ -9,7 +9,7 @@ export const POKEMON_API_QUERYS_KEY = {
 };
 
 export const POKEMON_LIST_PAGINATION = {
-  LIMIT: 20,
+  LIMIT: 10,
 };
 
 export const POKEMON_TYPES_COLORS = {

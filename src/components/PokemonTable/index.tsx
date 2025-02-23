@@ -2,7 +2,7 @@ import React, { Suspense, useState } from "react";
 
 import { usePokemonList } from "./../../hooks/usePokemon";
 import { CustomButton } from "../CustomButtom";
-import { POKEMON_SPRITE_URL } from "../../constants";
+import { POKEMON_LIST_PAGINATION, POKEMON_SPRITE_URL } from "../../constants";
 
 const PokemonDetails = React.lazy(() => import("../PokemonDetails"));
 import "./styles.scss";
@@ -25,7 +25,7 @@ export const PokemonTable = ({
 
   if (isLoading) return <div className="text-center py-4">Cargando...</div>;
   if (isError)
-    return <div className="text-red-500 py-4">Error al cargar Pokémon</div>;
+    return <div className="text-red-500 py-4">Error al cargar los pokemones</div>;
 
   return (
     <div>
@@ -51,14 +51,18 @@ export const PokemonTable = ({
       {!searchTerm && (
         <div className="flex justify-center gap-4 mt-8">
           <CustomButton
-            handleOnClick={() => onPaginate(Math.max(0, offset - 10))}
+            handleOnClick={() =>
+              onPaginate(Math.max(0, offset - POKEMON_LIST_PAGINATION.LIMIT))
+            }
             type="secondary"
             disabled={offset === 0}
           >
             ← Anterior
           </CustomButton>
           <CustomButton
-            handleOnClick={() => onPaginate(offset + 10)}
+            handleOnClick={() =>
+              onPaginate(offset + POKEMON_LIST_PAGINATION.LIMIT)
+            }
             type="secondary"
           >
             Siguiente →
