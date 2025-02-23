@@ -10,9 +10,7 @@ Definiciones tecnicas
 - [x] usar react.use y suspence para lazy load como poc (puede ser modal de detalles)
 - [x] usar login para guardar sesión Nickname en browser sessionStorage
 - [x] hacer estilos con grid para first mobile
-- [] Agregar page counter
-- [] agregar skeletom para loading
-- [] Almacenar filtros en URL
+- [x] Agregar page counter
 - [] agregar SEO en index.html entry point
 
 - [] usar playwright para e2e

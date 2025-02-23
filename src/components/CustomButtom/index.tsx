@@ -9,6 +9,7 @@ interface CustomButtonProps {
   btnType?: "button" | "submit" | "reset";
   className?: string;
   hoverColor?: boolean;
+  customProps?: any;
 }
 
 export const CustomButton = ({
@@ -19,6 +20,7 @@ export const CustomButton = ({
   btnType = "button",
   bgClassColor,
   className = "",
+  customProps,
 }: CustomButtonProps) => {
   const bgClass: string = type
     ? {
@@ -39,6 +41,7 @@ export const CustomButton = ({
       onClick={handleOnClick}
       className={buttonClass}
       type={btnType}
+      {...customProps}
     >
       {children}
     </button>

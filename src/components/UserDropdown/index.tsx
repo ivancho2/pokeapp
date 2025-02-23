@@ -38,6 +38,7 @@ export const UserDropdown = () => {
   return (
     <div className="relative flex items-center space-x-4" ref={dropdownRef}>
       <div
+        aria-label="Menú de usuario"
         className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 rounded-lg p-2"
         onClick={toggleDropdown}
         role="button"
@@ -45,7 +46,8 @@ export const UserDropdown = () => {
       >
         <img
           src={IconUser}
-          alt="User Avatar"
+          alt="User Icon"
+          aria-label="Avatar de usuario"
           className="w-10 h-10 rounded-full border-2 border-gray-200"
         />
         <span className="text-gray-800 font-semibold ml-2">{userName}</span>
@@ -75,6 +77,7 @@ export const UserDropdown = () => {
             {userName}
           </div>
           <button
+            aria-label="Cerrar Sesión"
             onClick={handleLogout}
             className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700"
             role="menuitem"
