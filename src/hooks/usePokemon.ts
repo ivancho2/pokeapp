@@ -7,6 +7,11 @@ interface Pokemon {
   url: string;
 }
 
+interface PokemonList {
+  results: Pokemon[];
+  count: number;
+}
+
 interface PokemonDetails {
   id: number;
   name: string;
@@ -28,17 +33,23 @@ interface AbilityEffect {
 // TODO: define ttl for cache
 
 export const usePokemonList = (offset: number, searchTerm: string) => {
-  return useQuery<Pokemon[]>({
+  return useQuery<PokemonList>({
     queryKey: ["pokemons", offset, searchTerm],
     queryFn: async () => {
       const { data } = await axios.get(
         `${POKEMON_API_URL}?offset=${offset}&limit=${POKEMON_LIST_PAGINATION.LIMIT}`
       );
-      return searchTerm
+
+      const pokemons = searchTerm
         ? data.results.filter((p: Pokemon) =>
             p.name.includes(searchTerm.toLowerCase())
           )
         : data.results.slice(0, POKEMON_LIST_PAGINATION.LIMIT);
+
+      return {
+        results: pokemons,
+        count: data.count,
+      };
     },
   });
 };

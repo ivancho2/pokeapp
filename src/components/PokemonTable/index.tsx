@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useMemo, useState } from "react";
 
 import { usePokemonList } from "./../../hooks/usePokemon";
 import { CustomButton } from "../CustomButtom";
@@ -17,20 +17,34 @@ export const PokemonTable = ({
   onPaginate: (offset: number) => void;
 }) => {
   const {
-    data: pokemons,
+    data: pokemonsData,
     isLoading,
     isError,
   } = usePokemonList(offset, searchTerm);
   const [selectedPokemon, setSelectedPokemon] = useState<string | null>(null);
 
+  const pagination = useMemo(() => {
+    if (!pokemonsData) return 0;
+
+    const totalPages =
+      Math.floor((pokemonsData.count || 0) / POKEMON_LIST_PAGINATION.LIMIT) +
+      (pokemonsData.count % POKEMON_LIST_PAGINATION.LIMIT > 0 ? 1 : 0);
+
+    const currentPage = Math.floor(offset / POKEMON_LIST_PAGINATION.LIMIT) + 1;
+
+    return `${currentPage} / ${totalPages}`;
+  }, [pokemonsData]);
+
   if (isLoading) return <div className="text-center py-4">Cargando...</div>;
   if (isError)
-    return <div className="text-red-500 py-4">Error al cargar los pokemones</div>;
+    return (
+      <div className="text-red-500 py-4">Error al cargar los pokemones</div>
+    );
 
   return (
     <div>
       <div className="pokemon-table">
-        {pokemons?.map((pokemon) => (
+        {pokemonsData?.results.map((pokemon) => (
           <div
             key={pokemon.name}
             className="pokemon-card"
@@ -59,6 +73,9 @@ export const PokemonTable = ({
           >
             ← Anterior
           </CustomButton>
+          <span className="text-lg font-bold text-gray-400 flex items-center">
+            {pagination}
+          </span>
           <CustomButton
             handleOnClick={() =>
               onPaginate(offset + POKEMON_LIST_PAGINATION.LIMIT)
