@@ -25,6 +25,7 @@ export const LoginPage = () => {
           onSubmit={handleSubmit}
         >
           <input
+            test-id="username-input"
             type="text"
             placeholder="Nombre de usuario"
             className="w-full p-2 mb-4 border rounded"

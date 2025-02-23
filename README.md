@@ -1,30 +1,66 @@
-Definiciones tecnicas
-- [x] use vite para construir el scaffolding inicial
-- [x] decidi no usar NextJS debido a que en la entrevista hablaban de aplicaciones client side solamente
-- [x] debo usar tailwind conversado en la entrevista tecnica
-- [x] usar librería para cache (usar @tanstack/react-query para manejar cache)
-- [x] usar sass para tener mas versatilidad en los estilos
-- [x] usar react-router-dom para manejar rutas
-- [x] definir look and feel
-- [-] paralelizar request cuando se pueda para mejorar performance
-- [x] usar react.use y suspence para lazy load como poc (puede ser modal de detalles)
-- [x] usar login para guardar sesión Nickname en browser sessionStorage
-- [x] hacer estilos con grid para first mobile
-- [x] Agregar page counter
-- [] agregar SEO en index.html entry point
+# Pokédex Challenge
 
-- [] usar playwright para e2e
-- [] usar jest para unit testing
-- [] commit convention
-- [] buscar donde desplegar un static site gratis (Versel)
-- [] usar .env para entornos
-- [ ] usar minificado y ofuscado
+[![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)](https://react.dev/)
+[![Playwright](https://img.shields.io/badge/Playwright-45ba4b?style=for-the-badge&logo=playwright&logoColor=white)](https://playwright.dev/)
 
+Aplicación cliente para exploración de Pokémon con sistema de autenticación y caching avanzado.
 
+**Demo**: [Ver en Vercel](https://---.vercel.app)
 
-next steps:
-- [ ] Agregar page counter
-- [ ] agregar skeletom para loading
-- [ ] Almacenar filtros en URL
-- [ ] agregar SEO en index.html entry point
-- [ ] componentes de error y loading
+## ✨ Características Principales
+
+- 🚀 **Listado de Pokémon** con paginación y búsqueda en tiempo real por nombre
+- 🔒 **Autenticación** basada en sessionStorage
+- ⚡ **Caching inteligente** con React Query
+- 📱 **Diseño responsive** mobile-first
+- 🎨 Estilos personalizados con Tailwind CSS + Sass
+- 🧪 **Cobertura de tests** con Playwright y Jest
+- 🔄 **Sistema de rutas** protegidas con React Router
+
+## 🛠 Stack Técnico
+
+**Core**
+
+- Vite
+- React + TypeScript
+- React Router
+- @tanstack/react-query
+
+**Estilos**
+
+- Tailwind CSS
+- Sass
+
+**Testing**
+
+- Playwright
+- Jest
+- Testing Library
+
+**QA**
+
+- ESLint (Vite default config)
+
+## Next Steps
+
+- Usar husky para precommit hooks (eslint, prettier, test)
+- Agregar skeletom para loading de componentes
+- Agregar componentes de error
+- Almacenar filtros en URL (paginación, búsqueda)
+
+## 🚀 Project Installation
+
+- `npm install`
+- `npm run dev`
+
+## 🧪 Tests
+
+### Unit Tests
+
+- `npm run test` (Jest)
+
+### E2E Tests
+
+- `npm run dev` (Start the app locally) \*[required]
+- `npm run test:e2e` (Playwright Test e2e)
